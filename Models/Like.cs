@@ -1,14 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EventOAPI.Models
 {
-    public class UserToken
+    [Table("Like")]
+    public class Like
     {
         [Key]
         public int Id { get; set; }
         public int UserId { get; set; }
-        public int TokenAmount { get; set; }
-        public DateTime CreatedAt { get; set; }
+
+        public string? comment { get; set; }
         public User User { get; set; }
     }
 }

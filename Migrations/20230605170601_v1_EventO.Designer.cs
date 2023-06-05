@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventOAPI.Migrations
 {
     [DbContext(typeof(EventContext))]
-    [Migration("20230605122653_v_4")]
-    partial class v_4
+    [Migration("20230605170601_v1_EventO")]
+    partial class v1_EventO
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -91,9 +91,6 @@ namespace EventOAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AdminId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -107,9 +104,12 @@ namespace EventOAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AdminId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Communities");
                 });
@@ -318,13 +318,13 @@ namespace EventOAPI.Migrations
 
             modelBuilder.Entity("EventOAPI.Models.Community", b =>
                 {
-                    b.HasOne("EventOAPI.Models.Admin", "Admin")
-                        .WithMany()
-                        .HasForeignKey("AdminId")
+                    b.HasOne("EventOAPI.Models.User", "user")
+                        .WithMany("communities")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Admin");
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("EventOAPI.Models.CommunityMember", b =>
@@ -439,6 +439,8 @@ namespace EventOAPI.Migrations
                     b.Navigation("Events");
 
                     b.Navigation("Tokens");
+
+                    b.Navigation("communities");
                 });
 #pragma warning restore 612, 618
         }
