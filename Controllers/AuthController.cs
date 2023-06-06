@@ -16,6 +16,11 @@ namespace EventOAPI.Controllers
         {
             _authService = authService;
         }
+        [HttpGet("isvalid")]
+        public ActionResult<ApiResponse> CheckEmail(string email)
+        {
+            return _authService.CheckEmail(email);
+        }
 
         [HttpPost("user/login")]
         public ActionResult<ApiResponse> UserLogin(LoginDto login)
