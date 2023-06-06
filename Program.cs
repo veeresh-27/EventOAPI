@@ -7,10 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<EventService, EventService>();
-builder.Services.AddTransient<AuthService, AuthService>();
+builder.Services.AddTransient<AuthService,AuthService>();
+builder.Services.AddTransient<SpaceServices,SpaceServices>();
 
 builder.Services.AddDbContext<EventContext>();
 builder.Services.AddTransient(typeof(EventContext));
+
+
 
 builder.Services.AddControllers();
 
