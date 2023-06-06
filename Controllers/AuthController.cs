@@ -1,5 +1,6 @@
 ﻿using EventOAPI.Dto;
 using EventOAPI.Models;
+using EventOAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,17 +10,17 @@ namespace EventOAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly EventContext _eventContext;
+        private readonly AuthService _authService;
 
-        public AuthController(EventContext eventContext)
+        public AuthController(AuthService authService)
         {
-            _eventContext = eventContext;
+            _authService = authService;
         }
 
         [HttpPost("/user/login")]
         public IActionResult UserLogin(LoginDto login)
         {
-            _eventContext.
+
         }
     }
 }

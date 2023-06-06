@@ -2,5 +2,6 @@
 {
     public class ApiResponse
     {
+        public bool Message { get; set; }
     }
 }
