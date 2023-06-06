@@ -2,12 +2,12 @@
 
 namespace EventOAPI.Services
 {
-    public class EventAttendees
+    public class EventAttendeesServices
     {
         private readonly EventContext context;
         private readonly EventService events;
         private readonly EventsServices eventsservices;
-        public EventAttendees(EventContext context, EventService events, EventsServices eventsservices)
+        public EventAttendeesServices(EventContext context, EventService events, EventsServices eventsservices)
         {
             this.context = context;
             this.events = events;
