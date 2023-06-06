@@ -17,6 +17,7 @@ builder.Services.AddTransient(typeof(EventContext));
 
 builder.Services.AddControllers();
 builder.Services.AddMvc();
+
 builder.Services.AddCors((options) =>
 {
     options.AddPolicy("cors", options =>
@@ -34,6 +35,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.MapControllers();
+
+
 
 app.Run();
 
