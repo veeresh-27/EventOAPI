@@ -14,6 +14,29 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="AdminServices.cs" />
+    <Compile Remove="AuthService.cs" />
+    <Compile Remove="ChatServices.cs" />
+    <Compile Remove="CommunitiesServices.cs" />
+    <Compile Remove="CommunityMemberServices.cs" />
+    <Compile Remove="EventAttendeesServices.cs" />
+    <Compile Remove="EventsServices.cs" />
+    <Compile Remove="LikeServices.cs" />
+    <Compile Remove="PostServices.cs" />
+    <Compile Remove="Services\ChatServices.cs" />
+    <Compile Remove="Services\CommunitiesServices.cs" />
+    <Compile Remove="Services\CommunityMemberServices.cs" />
+    <Compile Remove="Services\EventAttendeesServices.cs" />
+    <Compile Remove="Services\EventsServices.cs" />
+    <Compile Remove="Services\LikeServices.cs" />
+    <Compile Remove="Services\PostServices.cs" />
+    <Compile Remove="Services\SpaceServices.cs" />
+    <Compile Remove="Services\UserServices.cs" />
+    <Compile Remove="SpaceServices.cs" />
+    <Compile Remove="UserServices.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
       <PrivateAssets>all</PrivateAssets>

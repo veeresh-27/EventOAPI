@@ -2,78 +2,17 @@
 
 namespace EventOAPI.Services
 {
-    public class AdminServices
+    public class SpaceServices
     {
-       
         private readonly EventContext context;
-        public AdminServices(EventContext context)
+        private readonly AdminServices admins;
+
+        public SpaceServices(EventContext context,AdminServices admins)
         {
             this.context = context;
-            
+            this.admins = admins;
         }
-        public List<Admin> GetAllAdmins()
-        {
-            return context.Admins.ToList();
-        }
-        public bool AddAdmin(Admin admin)
-        {
-            try
-            {
-                context.Admins.Add(admin);
 
-                context.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public bool RemoveAdmin(int id)
-        {
-            try
-            {
-                var admin = context.Admins.FirstOrDefault(a => a.Id == id);
-                if (admin != null)
-                {
-                    foreach (var sp in admin.Spaces)
-                    {
-                        RemoveSpace(sp.Id);
-                    }
-                    context.Admins.Remove(admin);
-                    context.SaveChanges();
-                    return true;
-                }
-                return false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public bool UpdateAdmin(Admin admin)
-        {
-            try
-            {
-                var existingAdmin = context.Admins.FirstOrDefault(a => a.Id == admin.Id);
-                if (existingAdmin != null)
-                {
-                    existingAdmin.Username = admin.Username;
-                    existingAdmin.Password = admin.Password;
-                    context.SaveChanges();
-                    return true;
-                }
-                return false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public Admin GetAdminById(int id)
-        {
-            return context.Admins.FirstOrDefault(a => a.Id == id)!;
-        }
         public List<Space> GetAllSpaces()
         {
             return context.Spaces.ToList();
@@ -102,7 +41,7 @@ namespace EventOAPI.Services
                 if (space != null)
                 {
                     context.Spaces.Remove(space);
-                    var admin = GetAdminById(space.AdminId);
+                    var admin =admins.GetAdminById(space.AdminId);
                     admin.Spaces.Remove(space);
                     context.SaveChanges();
                     return true;
@@ -121,7 +60,7 @@ namespace EventOAPI.Services
                 var existingSpace = context.Spaces.FirstOrDefault(s => s.Id == space.Id);
                 if (existingSpace != null)
                 {
-                    var admin = GetAdminById(existingSpace.AdminId);
+                    var admin = admins.GetAdminById(existingSpace.AdminId);
                     admin.Spaces.Remove(existingSpace);
                     existingSpace.Name = space.Name;
                     existingSpace.Capacity = space.Capacity;
