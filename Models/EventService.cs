@@ -1,8 +1,14 @@
 ﻿namespace EventOAPI.Models
 {
-    public class EventDBConnect
+    public class EventService
     {
-        readonly EventContext context;
+        private readonly EventContext context;
+
+        public EventService(EventContext context)
+        {
+            this.context = context;
+        }
+
         public List<User> GetAllUsers()
         {
             return context.Users.ToList();
@@ -16,7 +22,7 @@
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -36,7 +42,7 @@
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -47,7 +53,7 @@
             try
             {
                 var users = context.Users.ToList();
-                var find = users.FirstOrDefault(user => user.Id == user.Id);
+                var find = users.FirstOrDefault(u => u.Id == user.Id);
                 if (find != null)
                 {
                     find.Username = user.Username;
@@ -57,7 +63,7 @@
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -67,7 +73,7 @@
         {
             var users = context.Users.ToList();
             var user = users.FirstOrDefault(user => user.Id == id);
-            return user;
+            return user!;
         }
 
         /// <summary>
@@ -89,7 +95,7 @@
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -112,7 +118,7 @@
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -132,7 +138,7 @@
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -140,7 +146,7 @@
 
         public Admin GetAdminById(int id)
         {
-            return context.Admins.FirstOrDefault(a => a.Id == id);
+            return context.Admins.FirstOrDefault(a => a.Id == id)!;
         }
 
 
@@ -162,7 +168,7 @@
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -183,7 +189,7 @@
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -208,7 +214,7 @@
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -216,7 +222,7 @@
 
         public Space GetSpaceById(int id)
         {
-            return context.Spaces.FirstOrDefault(s => s.Id == id);
+            return context.Spaces.FirstOrDefault(s => s.Id == id)!;
         }
 
 
@@ -231,7 +237,7 @@
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -252,7 +258,7 @@
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -279,7 +285,7 @@
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -287,12 +293,12 @@
 
         public Event GetEventById(int id)
         {
-            return context.Events.FirstOrDefault(e => e.Id == id);
+            return context.Events.FirstOrDefault(e => e.Id == id)!;
         }
 
 
         //////////////////Event Attendees
-        
+
 
         public List<EventAttendee> GetAllEventAttendees()
         {
@@ -312,7 +318,7 @@
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -335,7 +341,7 @@
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -361,7 +367,7 @@
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -369,7 +375,7 @@
 
         public EventAttendee GetEventAttendeeById(int id)
         {
-            return context.EventAttendees.FirstOrDefault(a => a.Id == id);
+            return context.EventAttendees.FirstOrDefault(a => a.Id == id)!;
         }
 
 
@@ -391,7 +397,7 @@
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -412,7 +418,7 @@
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -430,15 +436,14 @@
                     existingCommunity.Name = community.Name;
                     existingCommunity.IsExclusive = community.IsExclusive;
                     existingCommunity.IsPremium = community.IsPremium;
-                    //existingCommunity.Description = community.Description;
-                    // Update other properties as needed
+
                     user.CreatedCommunities.Add(existingCommunity);
                     context.SaveChanges();
                     return true;
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -446,7 +451,7 @@
 
         public Community GetCommunityById(int id)
         {
-            return context.Communities.FirstOrDefault(c => c.Id == id);
+            return context.Communities.FirstOrDefault(c => c.Id == id)!;
         }
 
 
@@ -469,7 +474,7 @@
                 context.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -492,7 +497,7 @@
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -521,7 +526,7 @@
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -529,7 +534,7 @@
 
         public CommunityMember GetCommunityMemberById(int id)
         {
-            return context.CommunityMembers.FirstOrDefault(m => m.Id == id);
+            return context.CommunityMembers.FirstOrDefault(m => m.Id == id)!;
         }
 
 
