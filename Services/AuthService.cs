@@ -30,7 +30,7 @@ namespace EventOAPI.Services
         {
             try
             {
-                _eventContext.Users.Add(new User { Email = dto.Email, Username = dto.Username, Password = dto.Password });
+                _eventContext.Users.Add(new User { Email = dto.Email, Username = dto.Username, Password = dto.Password, CreatedAt=DateTime.Now });
                 _eventContext.SaveChanges();
                 return new ApiResponse { Message = true };
 
@@ -57,7 +57,7 @@ namespace EventOAPI.Services
         {
             try
             {
-                _eventContext.Admins.Add(new Admin { Email = dto.Email, Username = dto.Username, Password = dto.Password });
+                _eventContext.Admins.Add(new Admin { Email = dto.Email, Username = dto.Username, Password = dto.Password, CreatedAt=DateTime.Now });
                 _eventContext.SaveChanges();
                 return new ApiResponse { Message = true };
 
