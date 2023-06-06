@@ -17,24 +17,24 @@ namespace EventOAPI.Controllers
             _authService = authService;
         }
 
-        [HttpPost("/user/login")]
+        [HttpPost("user/login")]
         public ActionResult<ApiResponse> UserLogin(LoginDto login)
         {
             return _authService.IsUserValid(login);
         }
 
-        [HttpPost("/user/register")]
+        [HttpPost("user/register")]
         public ActionResult<ApiResponse> UserRegister(RegistrationDto dto)
         {
             return _authService.RegisterUser(dto);
         }
-        [HttpPost("/owner/login")]
+        [HttpPost("owner/login")]
         public ActionResult<ApiResponse> OwnerLogin(LoginDto login)
         {
             return _authService.IsOwnerValid(login);
         }
 
-        [HttpPost("/owner/register")]
+        [HttpPost("owner/register")]
         public ActionResult<ApiResponse> OwnerRegister(RegistrationDto dto)
         {
             return _authService.RegisterOwner(dto);
