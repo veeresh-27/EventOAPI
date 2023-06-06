@@ -1,1 +1,3 @@
+# Auth endpoint
+- user/login
 
