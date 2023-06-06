@@ -4,6 +4,7 @@ using EventOAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventOAPI.Migrations
 {
     [DbContext(typeof(EventContext))]
-    partial class EventContextModelSnapshot : ModelSnapshot
+    [Migration("20230606065401_v_LikesAndUsers")]
+    partial class v_LikesAndUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,9 +217,6 @@ namespace EventOAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("EventId")
-                        .HasColumnType("int");
-
                     b.Property<int>("PostId")
                         .HasColumnType("int");
 
@@ -227,8 +227,6 @@ namespace EventOAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EventId");
 
                     b.HasIndex("PostId");
 
@@ -440,10 +438,6 @@ namespace EventOAPI.Migrations
 
             modelBuilder.Entity("EventOAPI.Models.Like", b =>
                 {
-                    b.HasOne("EventOAPI.Models.Event", null)
-                        .WithMany("Likes")
-                        .HasForeignKey("EventId");
-
                     b.HasOne("EventOAPI.Models.Post", "Post")
                         .WithMany("Likes")
                         .HasForeignKey("PostId")
@@ -509,8 +503,6 @@ namespace EventOAPI.Migrations
                     b.Navigation("Attendees");
 
                     b.Navigation("Chats");
-
-                    b.Navigation("Likes");
                 });
 
             modelBuilder.Entity("EventOAPI.Models.Post", b =>

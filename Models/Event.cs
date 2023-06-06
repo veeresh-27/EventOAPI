@@ -18,6 +18,7 @@ namespace EventOAPI.Models
 
         public Space Space { get; set; }
         public User User { get; set; }
+        public virtual ICollection<Like> Likes { get; set; }
         public virtual ICollection<Chat> Chats { get; set; }
         public virtual ICollection<EventAttendee> Attendees { get; set; }
     }

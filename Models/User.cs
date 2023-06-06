@@ -15,6 +15,7 @@ namespace EventOAPI.Models
         public List<Community> CreatedCommunities { get; set; }
         public List<CommunityMember> Communities { get; set; }
         public List<UserToken> Tokens { get; set; }
+        public List<Like> Likes { get; set; }
         public List<Chat> Chats { get; set; }
     }
 }
