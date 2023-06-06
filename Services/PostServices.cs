@@ -5,10 +5,12 @@ namespace EventOAPI.Services
     public class PostServices
     {
         private readonly EventContext context;
+        private readonly EventsServices events;
 
-        public PostServices(EventContext context)
+        public PostServices(EventContext context, EventsServices events)
         {
             this.context = context;
+            this.events = events;
         }
         public List<Post> GetAllPosts()
         {
@@ -20,7 +22,7 @@ namespace EventOAPI.Services
             try
             {
                 context.Posts.Add(post);
-                var Event = GetEventById(post.EventId);
+                var Event = events.GetEventById(post.EventId);
                 context.SaveChanges();
                 return true;
             }

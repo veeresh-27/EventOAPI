@@ -24,7 +24,7 @@ namespace EventOAPI.Services
             {
                 context.Spaces.Add(space);
                 var admin = (space.AdminId);
-                admin.Spaces.Add(space);
+                context.Spaces.Add(space);
                 context.SaveChanges();
                 return true;
             }
