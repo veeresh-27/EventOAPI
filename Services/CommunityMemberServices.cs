@@ -5,23 +5,27 @@ namespace EventOAPI.Services
     public class CommunityMemberServices
     {
         private readonly EventContext context;
+        private readonly EventService eventService;
+        private readonly CommunitiesServices community;
 
-        public CommunityMemberServices(EventContext context)
+        public CommunityMemberServices(EventContext context, EventService eventService, CommunitiesServices community)
         {
             this.context = context;
+            this.eventService = eventService; 
+            this.community = community;
         }
         public List<CommunityMember> GetAllCommunityMembers()
         {
             return context.CommunityMembers.ToList();
         }
 
-        public bool AddCommunityMember(CommunityMemberServices member)
+        public bool AddCommunityMember(CommunityMember member)
         {
             try
             {
                 context.CommunityMembers.Add(member);
-                var user = GetUserById(member.UserId);
-                var comm = GetCommunityById(member.CommunityId);
+                var user = eventService.GetUserById(member.UserId);
+                var comm = community.GetCommunityById(member.CommunityId);
                 user.Communities.Add(member);
                 comm.Members.Add(member);
                 context.SaveChanges();
@@ -40,8 +44,8 @@ namespace EventOAPI.Services
                 var member = context.CommunityMembers.FirstOrDefault(m => m.Id == id);
                 if (member != null)
                 {
-                    var user = GetUserById(member.UserId);
-                    var comm = GetCommunityById(member.CommunityId);
+                    var user = eventService.GetUserById(member.UserId);
+                    var comm = community.GetCommunityById(member.CommunityId);
                     user.Communities.Remove(member);
                     comm.Members.Remove(member);
                     context.CommunityMembers.Remove(member);
@@ -56,7 +60,7 @@ namespace EventOAPI.Services
             }
         }
 
-        public bool UpdateCommunityMember(CommunityMemberServices member)
+        public bool UpdateCommunityMember(CommunityMember member)
         {
             try
             {
@@ -64,8 +68,8 @@ namespace EventOAPI.Services
                 if (existingMember != null)
                 {
 
-                    var user = GetUserById(existingMember.UserId);
-                    var comm = GetCommunityById(existingMember.CommunityId);
+                    var user = eventService.GetUserById(existingMember.UserId);
+                    var comm = community.GetCommunityById(existingMember.CommunityId);
                     user.Communities.Remove(existingMember);
                     comm.Members.Remove(existingMember);
                     existingMember.UserId = member.UserId;

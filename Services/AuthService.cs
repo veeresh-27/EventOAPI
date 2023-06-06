@@ -13,6 +13,7 @@ namespace EventOAPI.Services
         {
             _eventContext = eventContext;
         }
+       
         public ApiResponse IsUserValid(LoginDto loginDto)
         {
             var foundUser = _eventContext.Users.FirstOrDefault(user => (user.Email.Equals(loginDto.Email) && user.Password.Equals(loginDto.Password)));
