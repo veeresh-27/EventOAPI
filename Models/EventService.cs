@@ -537,6 +537,140 @@
             return context.CommunityMembers.FirstOrDefault(m => m.Id == id)!;
         }
 
+        ///// Chats
+
+
+        public List<Chat> GetAllChats()
+        {
+            return context.Chats.ToList();
+        }
+
+        public bool AddChat(Chat chat)
+        {
+            try
+            {
+                context.Chats.Add(chat);
+                var user = GetUserById(chat.UserId);
+                var comm = GetEventById(chat.EventId);
+                user.Chats.Add(chat);
+                comm.Chats.Add(chat);
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool RemoveChat(int id)
+        {
+            try
+            {
+                var chat = context.Chats.FirstOrDefault(m => m.Id == id);
+                if (chat != null)
+                {
+                    var user = GetUserById(chat.UserId);
+                    var Event =GetEventById(chat.EventId);                 user.Chats.Remove(chat);
+                    Event.Chats.Remove(chat);
+                    context.Chats.Remove(chat);
+                    context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+       
+
+        public Chat GetChatById(int id)
+        {
+            return context.Chats.FirstOrDefault(m => m.Id == id)!;
+        }
+
+
+        ////// POST
+        ////
+
+        public List<Post> GetAllPosts()
+        {
+            return context.Posts.ToList();
+        }
+
+        public bool AddPost(Post post)
+        {
+            try
+            {
+                context.Posts.Add(post);                
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool RemovePost(int id)
+        {
+            try
+            {
+                var post = context.Posts.FirstOrDefault(m => m.Id == id);
+                if (post != null)
+                {
+                    context.Posts.Remove(post);
+                    context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool UpdatePost(Post post)
+        {
+            try
+            {
+                var existingPost = context.Posts.FirstOrDefault(m => m.Id == post.Id);
+                if (existingPost != null)
+                {                  
+                    existingPost.Title = post.Title;
+                    existingPost.Description = post.Description;
+
+                    // Update other properties as needed
+                    context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public Post GetPostById(int id)
+        {
+            return context.Posts.FirstOrDefault(m => m.Id == id)!;
+        }
+
+
+        /////// Likes  
+        ////
+
+        public List<Like> GetAllLikes()
+        {
+            return context.Likes.ToList();
+        }
+
+       
 
 
     }

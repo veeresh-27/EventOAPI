@@ -12,7 +12,6 @@ namespace EventOAPI.Models
         public DateTime CreatedAt { get; set; }
         public List<Event> Events { get; set; }
         public List<EventAttendee> AttendedEvents { get; set; }
-
         public List<Community> CreatedCommunities { get; set; }
         public List<CommunityMember> Communities { get; set; }
         public List<UserToken> Tokens { get; set; }
