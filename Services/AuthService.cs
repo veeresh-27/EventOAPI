@@ -31,7 +31,7 @@ namespace EventOAPI.Services
         {
             try
             {
-                _eventContext.Users.Add(new User { Email = dto.Email, Username = dto.Username, Password = dto.Password, CreatedAt=DateTime.Now });
+                _eventContext.Users.Add(new User { Email = dto.Email, Username = dto.Username, Password = dto.Password, CreatedAt = DateTime.Now });
                 _eventContext.SaveChanges();
                 return new ApiResponse { Message = true };
 
@@ -58,7 +58,7 @@ namespace EventOAPI.Services
         {
             try
             {
-                _eventContext.Admins.Add(new Admin { Email = dto.Email, Username = dto.Username, Password = dto.Password, CreatedAt=DateTime.Now });
+                _eventContext.Admins.Add(new Admin { Email = dto.Email, Username = dto.Username, Password = dto.Password, CreatedAt = DateTime.Now });
                 _eventContext.SaveChanges();
                 return new ApiResponse { Message = true };
 
@@ -67,6 +67,19 @@ namespace EventOAPI.Services
             {
                 return new ApiResponse() { Message = false };
             }
+        }
+        public ApiResponse CheckEmail(string email)
+        {
+            var res = _eventContext.Admins.Any(a => a.Email.Equals(email)) || _eventContext.Users.Any(u => u.Email.Equals(email));
+            if (res)
+            {
+                return new ApiResponse
+                {
+                    Message = false
+                };
+
+            }
+            return new ApiResponse { Message = true };
         }
 
     }

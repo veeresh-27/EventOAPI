@@ -5,6 +5,7 @@ namespace EventOAPI.Models
     public class EventContext : DbContext
     {
         private readonly IConfiguration _configuration;
+        public static readonly ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
 
         public EventContext(IConfiguration configuration)
         {
@@ -32,7 +33,7 @@ namespace EventOAPI.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Configure the connection string for your database
-            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("faiserver"));
+            optionsBuilder.UseLoggerFactory(MyLoggerFactory).UseSqlServer(_configuration.GetConnectionString("faiserver"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

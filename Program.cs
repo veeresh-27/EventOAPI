@@ -16,7 +16,6 @@ builder.Services.AddTransient(typeof(EventContext));
 
 
 builder.Services.AddControllers();
-builder.Services.AddMvc();
 
 builder.Services.AddCors((options) =>
 {
