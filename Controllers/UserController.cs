@@ -16,7 +16,7 @@ namespace EventOAPI.Controllers
         }
 
         [HttpGet("/allusers")]
-        public IEnumerable<User> GetAllUsers()
+        public ActionResult<IEnumerable<User>> GetAllUsers()
         {
             return _service.GetAllUsers();
         }
