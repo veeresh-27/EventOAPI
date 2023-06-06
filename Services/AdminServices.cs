@@ -1,4 +1,5 @@
-﻿using EventOAPI.Models;
+﻿using EventOAPI.Dto;
+using EventOAPI.Models;
 
 namespace EventOAPI.Services
 {
@@ -79,13 +80,21 @@ namespace EventOAPI.Services
             return context.Spaces.ToList();
         }
 
-        public bool AddSpace(Space space)
+        public bool AddSpace(SpaceDto tempSpace)
         {
             try
             {
+                Space space = new Space();
+                space.Name = tempSpace.Name;
+                space.AdminId = tempSpace.AdminId;
+                space.Capacity = tempSpace.Capacity;
+                space.Location =    tempSpace.Location;
+                space.Amenities = tempSpace.Amenities;
+                space.CreatedAt = tempSpace.CreatedAt;
                 context.Spaces.Add(space);
-                var admin = (space.AdminId);
-                context.Spaces.Add(space);
+                var admin = GetAdminById(space.AdminId);
+                space.Admin = admin;
+                admin.Spaces.Add(space);
                 context.SaveChanges();
                 return true;
             }
@@ -114,7 +123,7 @@ namespace EventOAPI.Services
                 return false;
             }
         }
-        public bool UpdateSpace(Space space)
+        public bool UpdateSpace(SpaceDto space)
         {
             try
             {

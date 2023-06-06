@@ -23,19 +23,19 @@ namespace EventOAPI.Controllers
         }
 
         [HttpPost("create")]
-        public ActionResult<bool> PostSpace(Space space)
+        public ActionResult<bool> PostSpace(SpaceDto space)
         {
             return _adminServices.AddSpace(space);
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public ActionResult<Space> GetSpaceById(int id)
         {
             return _adminServices.GetSpaceById(id);
         }
 
         [HttpPut("update")]
-        public ActionResult<bool> UpdateSpace(Space space)
+        public ActionResult<bool> UpdateSpace(SpaceDto space)
         {
             return _adminServices.UpdateSpace(space);
         }
