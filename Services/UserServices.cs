@@ -1,4 +1,5 @@
-﻿using EventOAPI.Models;
+﻿using EventOAPI.Data;
+using EventOAPI.Models;
 
 namespace EventOAPI.Services
 {

@@ -1,14 +1,15 @@
-﻿using EventOAPI.Models;
+﻿using EventOAPI.Data;
+using EventOAPI.Models;
 
 namespace EventOAPI.Services
 {
     public class CommunityMemberServices
     {
         private readonly EventContext context;
-        private readonly EventService eventService;
+        private readonly Models.EventService eventService;
         private readonly CommunitiesServices community;
 
-        public CommunityMemberServices(EventContext context, EventService eventService, CommunitiesServices community)
+        public CommunityMemberServices(EventContext context, Models.EventService eventService, CommunitiesServices community)
         {
             this.context = context;
             this.eventService = eventService; 

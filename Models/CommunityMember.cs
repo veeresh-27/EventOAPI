@@ -10,7 +10,7 @@ namespace EventOAPI.Models
         public int UserId { get; set; }
         public DateTime JoinedAt { get; set; }
 
-        public Community Community { get; set; }
-        public User User { get; set; }
+        public Community Community { get; set; } = null!;
+        public User User { get; set; } = null!;
     }
 }

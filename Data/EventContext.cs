@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EventOAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace EventOAPI.Models
+namespace EventOAPI.Data
 {
     public class EventContext : DbContext
     {
@@ -24,7 +25,7 @@ namespace EventOAPI.Models
 
         public DbSet<CommunityMember> CommunityMembers { get; set; }
 
-        public DbSet<UserToken> UserTokens { get; set; }
+        public DbSet<InviteToken> InviteTokens { get; set; }
 
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Like> Likes { get; set; }
@@ -39,6 +40,11 @@ namespace EventOAPI.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Define relationships between entities
+            modelBuilder.Entity<Admin>()
+                .HasMany(s => s.Spaces)
+                .WithOne(c => c.Admin)
+                .HasForeignKey(a => a.AdminId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Space>()
                 .HasOne(s => s.Admin)
@@ -82,11 +88,6 @@ namespace EventOAPI.Models
                 .HasForeignKey(m => m.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<UserToken>()
-                .HasOne(t => t.User)
-                .WithMany(u => u.Tokens)
-                .HasForeignKey(t => t.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Chat>()
                 .HasOne(c => c.Event)

@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\**" />
-    <Content Remove="Data\**" />
-    <EmbeddedResource Remove="Data\**" />
-    <None Remove="Data\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Remove="AdminServices.cs" />
     <Compile Remove="AuthService.cs" />
     <Compile Remove="ChatServices.cs" />
@@ -27,7 +20,6 @@
     <Compile Remove="Services\CommunitiesServices.cs" />
     <Compile Remove="Services\CommunityMemberServices.cs" />
     <Compile Remove="Services\EventAttendeesServices.cs" />
-    <Compile Remove="Services\EventsServices.cs" />
     <Compile Remove="Services\LikeServices.cs" />
     <Compile Remove="Services\PostServices.cs" />
     <Compile Remove="Services\SpaceServices.cs" />
@@ -37,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
       <PrivateAssets>all</PrivateAssets>

@@ -8,11 +8,11 @@ namespace EventOAPI.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
         public int EventId { get; set; }
-        public Event Event { get; set; }
-        public virtual ICollection<Like> Likes { get; set; }
+        public Event Event { get; set; } = null!;
+        public virtual ICollection<Like> Likes { get; set; } = new List<Like>();
 
 
     }

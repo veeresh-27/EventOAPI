@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventOAPI.Migrations
 {
     [DbContext(typeof(EventContext))]
-    [Migration("20230606065401_v_LikesAndUsers")]
-    partial class v_LikesAndUsers
+    [Migration("20230607095359_removed_time_span")]
+    partial class removed_time_span
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,15 +37,12 @@ namespace EventOAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -65,7 +62,6 @@ namespace EventOAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Message")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("SentAt")
@@ -94,6 +90,9 @@ namespace EventOAPI.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("InviteTokenId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsExclusive")
                         .HasColumnType("bit");
 
@@ -101,13 +100,17 @@ namespace EventOAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("InviteTokenId");
 
                     b.HasIndex("UserId");
 
@@ -157,24 +160,28 @@ namespace EventOAPI.Migrations
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
+                    b.Property<int>("InviteTokenId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
                     b.Property<string>("Rules")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SpaceId")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan>("Time")
-                        .HasColumnType("time");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("InviteTokenId");
 
                     b.HasIndex("SpaceId");
 
@@ -209,6 +216,25 @@ namespace EventOAPI.Migrations
                     b.ToTable("EventAttendees");
                 });
 
+            modelBuilder.Entity("EventOAPI.Models.InviteToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InviteTokens");
+                });
+
             modelBuilder.Entity("EventOAPI.Models.Like", b =>
                 {
                     b.Property<int>("Id")
@@ -216,6 +242,9 @@ namespace EventOAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("EventId")
+                        .HasColumnType("int");
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
@@ -227,6 +256,8 @@ namespace EventOAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EventId");
 
                     b.HasIndex("PostId");
 
@@ -244,14 +275,12 @@ namespace EventOAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -273,7 +302,6 @@ namespace EventOAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Amenities")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Capacity")
@@ -283,12 +311,13 @@ namespace EventOAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Location")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -309,44 +338,17 @@ namespace EventOAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("EventOAPI.Models.UserToken", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("TokenAmount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserTokens");
                 });
 
             modelBuilder.Entity("EventOAPI.Models.Chat", b =>
@@ -370,11 +372,19 @@ namespace EventOAPI.Migrations
 
             modelBuilder.Entity("EventOAPI.Models.Community", b =>
                 {
+                    b.HasOne("EventOAPI.Models.InviteToken", "InviteToken")
+                        .WithMany()
+                        .HasForeignKey("InviteTokenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("EventOAPI.Models.User", "user")
                         .WithMany("CreatedCommunities")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("InviteToken");
 
                     b.Navigation("user");
                 });
@@ -400,6 +410,12 @@ namespace EventOAPI.Migrations
 
             modelBuilder.Entity("EventOAPI.Models.Event", b =>
                 {
+                    b.HasOne("EventOAPI.Models.InviteToken", "InviteToken")
+                        .WithMany()
+                        .HasForeignKey("InviteTokenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("EventOAPI.Models.Space", "Space")
                         .WithMany("Events")
                         .HasForeignKey("SpaceId")
@@ -411,6 +427,8 @@ namespace EventOAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("InviteToken");
 
                     b.Navigation("Space");
 
@@ -438,6 +456,10 @@ namespace EventOAPI.Migrations
 
             modelBuilder.Entity("EventOAPI.Models.Like", b =>
                 {
+                    b.HasOne("EventOAPI.Models.Event", null)
+                        .WithMany("Likes")
+                        .HasForeignKey("EventId");
+
                     b.HasOne("EventOAPI.Models.Post", "Post")
                         .WithMany("Likes")
                         .HasForeignKey("PostId")
@@ -477,17 +499,6 @@ namespace EventOAPI.Migrations
                     b.Navigation("Admin");
                 });
 
-            modelBuilder.Entity("EventOAPI.Models.UserToken", b =>
-                {
-                    b.HasOne("EventOAPI.Models.User", "User")
-                        .WithMany("Tokens")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("EventOAPI.Models.Admin", b =>
                 {
                     b.Navigation("Spaces");
@@ -503,6 +514,8 @@ namespace EventOAPI.Migrations
                     b.Navigation("Attendees");
 
                     b.Navigation("Chats");
+
+                    b.Navigation("Likes");
                 });
 
             modelBuilder.Entity("EventOAPI.Models.Post", b =>
@@ -528,8 +541,6 @@ namespace EventOAPI.Migrations
                     b.Navigation("Events");
 
                     b.Navigation("Likes");
-
-                    b.Navigation("Tokens");
                 });
 #pragma warning restore 612, 618
         }

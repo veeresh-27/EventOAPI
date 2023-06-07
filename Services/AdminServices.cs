@@ -1,47 +1,34 @@
-﻿using EventOAPI.Dto;
+﻿using EventOAPI.Data;
+using EventOAPI.Dto;
 using EventOAPI.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventOAPI.Services
 {
     public class AdminServices
     {
-       
+
         private readonly EventContext context;
         public AdminServices(EventContext context)
         {
             this.context = context;
-            
+
         }
         public List<Admin> GetAllAdmins()
         {
             return context.Admins.ToList();
         }
-        public bool AddAdmin(Admin admin)
-        {
-            try
-            {
-                context.Admins.Add(admin);
 
-                context.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public bool RemoveAdmin(int id)
+        public bool RemoveSpaceByOwnerId(int ownerId, int spaceId)
         {
             try
             {
-                var admin = context.Admins.FirstOrDefault(a => a.Id == id);
-                if (admin != null)
+                var owner = context.Admins.Include(a => a.Spaces).FirstOrDefault(a => a.Id.Equals(ownerId));
+                if (owner != null)
                 {
-                    foreach (var sp in admin.Spaces)
-                    {
-                        RemoveSpace(sp.Id);
-                    }
-                    context.Admins.Remove(admin);
+                    var space = owner.Spaces.FirstOrDefault(s => s.Id == spaceId);
+                    owner.Spaces.Remove(space!);
                     context.SaveChanges();
                     return true;
                 }
@@ -52,15 +39,19 @@ namespace EventOAPI.Services
                 return false;
             }
         }
-        public bool UpdateAdmin(Admin admin)
+        public bool UpdateSpace(int ownerId, int spaceId, SpaceDto spaceDto)
         {
             try
             {
-                var existingAdmin = context.Admins.FirstOrDefault(a => a.Id == admin.Id);
-                if (existingAdmin != null)
+                var owner = context.Admins.Include(a => a.Spaces).FirstOrDefault(a => a.Id == ownerId);
+                var space = owner!.Spaces.FirstOrDefault(s => s.Id == spaceId);
+                if (owner != null && space != null)
                 {
-                    existingAdmin.Username = admin.Username;
-                    existingAdmin.Password = admin.Password;
+                    space.Capacity = spaceDto.Capacity;
+                    space.Location = spaceDto.Location;
+                    space.Name = spaceDto.Name;
+                    space.Amenities = spaceDto.Amenities;
+                    space.Price = spaceDto.Price;
                     context.SaveChanges();
                     return true;
                 }
@@ -71,85 +62,31 @@ namespace EventOAPI.Services
                 return false;
             }
         }
-        public Admin GetAdminById(int id)
+        public List<Space> GetSpacesByOwnerId(int ownerId)
         {
-            return context.Admins.FirstOrDefault(a => a.Id == id)!;
+            return context.Spaces.Where(s => s.AdminId == ownerId).Include(s => s.Events).ToList();
         }
-        public List<Space> GetAllSpaces()
+        public Space AddSpaceToOwner(int ownerId, SpaceDto dto)
         {
-            return context.Spaces.ToList();
+            var owner = context.Admins.Include(a => a.Spaces).FirstOrDefault(a => a.Id.
+            Equals(ownerId))!;
+            owner.Spaces.Add(new Space
+            {
+                AdminId = ownerId,
+                Name = dto.Name,
+                Capacity = dto.Capacity,
+                Location = dto.Location,
+                Amenities = dto.Amenities,
+                Price=dto.Price,
+                CreatedAt = DateTime.Now
+
+            });
+            context.SaveChanges();
+            return context.Spaces.Include(a => a.Admin).Where(a => a.AdminId.Equals(ownerId)).OrderBy(s => s.Id).Last();
+
+
         }
 
-        public bool AddSpace(SpaceDto tempSpace)
-        {
-            try
-            {
-                Space space = new Space();
-                space.Name = tempSpace.Name;
-                space.AdminId = tempSpace.AdminId;
-                space.Capacity = tempSpace.Capacity;
-                space.Location =    tempSpace.Location;
-                space.Amenities = tempSpace.Amenities;
-                space.CreatedAt = tempSpace.CreatedAt;
-                context.Spaces.Add(space);
-                var admin = GetAdminById(space.AdminId);
-                space.Admin = admin;
-                admin.Spaces.Add(space);
-                context.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public bool RemoveSpace(int id)
-        {
-            try
-            {
-                var space = context.Spaces.FirstOrDefault(s => s.Id == id);
-                if (space != null)
-                {
-                    context.Spaces.Remove(space);
-                    var admin = GetAdminById(space.AdminId);
-                    admin.Spaces.Remove(space);
-                    context.SaveChanges();
-                    return true;
-                }
-                return false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public bool UpdateSpace(SpaceDto space)
-        {
-            try
-            {
-                var existingSpace = context.Spaces.FirstOrDefault(s => s.Id == space.Id);
-                if (existingSpace != null)
-                {
-                    var admin = GetAdminById(existingSpace.AdminId);
-                    admin.Spaces.Remove(existingSpace);
-                    existingSpace.Name = space.Name;
-                    existingSpace.Capacity = space.Capacity;
-                    existingSpace.Location = space.Location;
-                    existingSpace.Amenities = space.Amenities;
-                    admin.Spaces.Add(existingSpace);
-                    context.SaveChanges();
-                    return true;
-                }
-                return false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public Space GetSpaceById(int id)
-        {
-            return context.Spaces.FirstOrDefault(s => s.Id == id)!;
-        }
+        
     }
 }

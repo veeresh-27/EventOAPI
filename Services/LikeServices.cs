@@ -1,4 +1,5 @@
-﻿using EventOAPI.Models;
+﻿using EventOAPI.Data;
+using EventOAPI.Models;
 
 namespace EventOAPI.Services
 {
@@ -7,9 +8,9 @@ namespace EventOAPI.Services
 
         private readonly EventContext context;
         private readonly PostServices postServices;
-        private readonly EventsServices events;
+        private readonly EventService events;
 
-        public LikeServices(EventContext context, PostServices postServices, EventsServices events)
+        public LikeServices(EventContext context, PostServices postServices, EventService events)
         {
             this.context = context;
             this.postServices = postServices;   

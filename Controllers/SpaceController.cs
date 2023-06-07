@@ -10,43 +10,31 @@ namespace EventOAPI.Controllers
     [ApiController]
     public class SpaceController : ControllerBase
     {
-        private readonly AdminServices _adminServices;
+        private readonly SpaceService _spaceService;
 
-        public SpaceController(AdminServices adminervices) {
-            _adminServices = adminervices;
+        public SpaceController(SpaceService spaceService) {
+            _spaceService = spaceService;
         }
 
         [HttpGet("all")]
         public ActionResult<IEnumerable<Space>> GetAllSpace() 
         {
-            return _adminServices.GetAllSpaces();
-        }
-
-        [HttpPost("create")]
-        public ActionResult<bool> PostSpace(SpaceDto space)
-        {
-            return _adminServices.AddSpace(space);
+            return _spaceService.GetAllSpaces();
         }
 
         [HttpGet("{id}")]
         public ActionResult<Space> GetSpaceById(int id)
         {
-            return _adminServices.GetSpaceById(id);
+            return _spaceService.GetSpaceById(id);
         }
-
-        [HttpPut("update")]
-        public ActionResult<bool> UpdateSpace(SpaceDto space)
+        [HttpGet("{id}/events")]
+        public ActionResult<IEnumerable<Event>> GetEventsBySpaceId(int id)
         {
-            return _adminServices.UpdateSpace(space);
+            return _spaceService.GetEventsOfASpace(id);
         }
 
-
-        [HttpDelete("delete")]
-        public ActionResult<bool> DeleteSpace(int id)
-        {
-            return _adminServices.RemoveSpace(id);
-        }
-
+      
+      
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using EventOAPI.Models;
+using EventOAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,10 +16,10 @@ namespace EventOAPI.Controllers
             _service = service;
         }
 
-        [HttpGet("/allusers")]
-        public ActionResult<IEnumerable<User>> GetAllUsers()
-        {
-            return _service.GetAllUsers();
-        }
+        //[HttpGet("/allusers")]
+        //public ActionResult<IEnumerable<User>> GetAllUsers()
+        //{
+        //    return _service.GetAllUsers();
+        //}
     }
 }

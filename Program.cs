@@ -1,14 +1,16 @@
 
-using EventOAPI.Models;
+using EventOAPI.Data;
 using EventOAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//builder.Services.AddTransient<EventService, EventService>();
-builder.Services.AddTransient<AuthService,AuthService>();
+builder.Services.AddTransient<AuthService, AuthService>();
 builder.Services.AddTransient<AdminServices, AdminServices>();
+builder.Services.AddTransient<SpaceService, SpaceService>();
+builder.Services.AddTransient<EventService, EventService>();
+
 //builder.Services.AddTransient<ChatServices, ChatServices>();
 //builder.Services.AddTransient<CommunitiesServices, CommunitiesServices>();
 //builder.Services.AddTransient<CommunityMemberServices, CommunityMemberServices>();
@@ -17,14 +19,13 @@ builder.Services.AddTransient<AdminServices, AdminServices>();
 
 //builder.Services.AddTransient<LikeServices, LikeServices>();
 //builder.Services.AddTransient<PostServices, PostServices>();
-//builder.Services.AddTransient<SpaceServices, SpaceServices>();
 
 //builder.Services.AddTransient<UserServices, UserServices>();
 
 builder.Services.AddDbContext<EventContext>();
 builder.Services.AddTransient(typeof(EventContext));
-builder.Services.AddControllers();
-
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddCors((options) =>
 {
     options.AddPolicy("cors", options =>

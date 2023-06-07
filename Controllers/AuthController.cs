@@ -23,7 +23,7 @@ namespace EventOAPI.Controllers
         }
 
         [HttpPost("user/login")]
-        public ActionResult<ApiResponse> UserLogin(LoginDto login)
+        public ActionResult<DetailsDto> UserLogin(LoginDto login)
         {
             return _authService.IsUserValid(login);
         }
@@ -34,7 +34,7 @@ namespace EventOAPI.Controllers
             return _authService.RegisterUser(dto);
         }
         [HttpPost("owner/login")]
-        public ActionResult<ApiResponse> OwnerLogin(LoginDto login)
+        public ActionResult<DetailsDto> OwnerLogin(LoginDto login)
         {
             return _authService.IsOwnerValid(login);
         }
@@ -43,6 +43,24 @@ namespace EventOAPI.Controllers
         public ActionResult<ApiResponse> OwnerRegister(RegistrationDto dto)
         {
             return _authService.RegisterOwner(dto);
+        }
+        [HttpDelete("owner/{id}")]
+        public ActionResult<ApiResponse> DeleteOwner(int id) {
+            return new ApiResponse { Message = _authService.DeleteOwner(id) };
+        }
+        [HttpPut("owner/{id}")]
+        public ActionResult<ApiResponse> UpdateOwner(int ownerId, DetailsDto dto)
+        {
+            return new ApiResponse { Message = _authService.UpdateOwner(ownerId, dto) };
+        }
+        [HttpDelete("user/{id}")]
+        public ActionResult<ApiResponse> DeleteUser(int id) {
+            return new ApiResponse { Message = _authService.DeleteUser(id) };
+        }
+        [HttpPut("user/{id}")]
+        public ActionResult<ApiResponse> UpdateUserr(int userId, DetailsDto dto)
+        {
+            return new ApiResponse { Message = _authService.UpdateUser(userId, dto) };
         }
     }
 }
