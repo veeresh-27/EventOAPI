@@ -17,7 +17,6 @@
     <Compile Remove="LikeServices.cs" />
     <Compile Remove="PostServices.cs" />
     <Compile Remove="Services\ChatServices.cs" />
-    <Compile Remove="Services\CommunitiesServices.cs" />
     <Compile Remove="Services\CommunityMemberServices.cs" />
     <Compile Remove="Services\EventAttendeesServices.cs" />
     <Compile Remove="Services\LikeServices.cs" />

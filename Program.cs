@@ -12,7 +12,7 @@ builder.Services.AddTransient<SpaceService, SpaceService>();
 builder.Services.AddTransient<EventService, EventService>();
 
 //builder.Services.AddTransient<ChatServices, ChatServices>();
-//builder.Services.AddTransient<CommunitiesServices, CommunitiesServices>();
+builder.Services.AddTransient<CommunitiesServices, CommunitiesServices>();
 //builder.Services.AddTransient<CommunityMemberServices, CommunityMemberServices>();
 //builder.Services.AddTransient<EventAttendeesServices, EventAttendeesServices>();
 //builder.Services.AddTransient<EventsServices, EventsServices>();

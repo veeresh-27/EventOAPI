@@ -16,5 +16,6 @@ namespace EventOAPI.Models
 
         public User user { get; set; } = null!;
         public virtual ICollection<CommunityMember> Members { get; set; } = new List<CommunityMember>();
+        public virtual ICollection<Event> CommunityEvents { get; set; } = new List<Event>();
     }
 }

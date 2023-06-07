@@ -30,62 +30,53 @@ namespace EventOAPI.Services
             context.SaveChanges();
             return context.Events.OrderBy(e => e.Id).Last();
         }
-        //public bool RemoveEvent(int id)
-        //{
-        //    try
-        //    {
-        //        var evnt = context.Events.FirstOrDefault(e => e.Id == id);
-        //        if (evnt != null)
-        //        {
-        //            var user = eventServices.GetUserById(evnt.UserId);
-        //            user.Events.Remove(evnt);
-        //            context.Events.Remove(evnt);
-        //            context.SaveChanges();
-        //            return true;
-        //        }
-        //        return false;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return false;
-        //    }
-        //}
+        public bool RemoveEvent(int id)
+        {
+            try
+            {
+                var evnt = context.Events.FirstOrDefault(e => e.Id == id);
+                if (evnt != null)
+                {
+                    context.Events.Remove(evnt);
+                    context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
-        //public bool UpdateEvent(Event evnt)
-        //{
-        //    try
-        //    {
-        //        var existingEvent = context.Events.FirstOrDefault(e => e.Id == evnt.Id);
-        //        if (existingEvent != null)
-        //        {
-        //            var user = eventServices.GetUserById(evnt.UserId);
-        //            user.Events.Remove(evnt);
-        //            existingEvent.Name = evnt.Name;
-        //            existingEvent.SpaceId = evnt.SpaceId;
-        //            existingEvent.Date = evnt.Date;
-        //            existingEvent.Time = evnt.Time;
-        //            existingEvent.Duration = evnt.Duration;
-        //            existingEvent.Rules = evnt.Rules;
-        //            user.Events.Add(existingEvent);
-        //            context.SaveChanges();
-        //            return true;
-        //        }
-        //        return false;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return false;
-        //    }
-        //}
+        public Event UpdateEvent(int eventId, EventDto evnt)
+        {
+            var existingEvent = context.Events.FirstOrDefault(e => e.Id.Equals(eventId));
+            if (existingEvent != null)
+            {
+                existingEvent.Name = evnt.Name;
+                existingEvent.SpaceId = evnt.SpaceId;
+                existingEvent.Date = evnt.Date;
+                existingEvent.Duration = evnt.Duration;
+                existingEvent.Rules = evnt.Rules;
+                context.SaveChanges();
+            }
+            return existingEvent!;
+        }
 
         public Event GetEventById(int id)
         {
-            return context.Events.FirstOrDefault(e => e.Id == id)!;
+            return context.Events.Include(e => e.Attendees).FirstOrDefault(e => e.Id == id)!;
         }
 
         public List<Event> GetAllEvents()
         {
             return context.Events.ToList();
         }
+        public List<Event> GetEventsByDate(DateTime date)
+        {
+            return context.Events.Where(e => e.Date.Day.Equals(date.Day) && e.Date.Month.Equals(date.Month) && e.Date.Year.Equals(date.Year)).ToList();
+        }
     }
+
 }

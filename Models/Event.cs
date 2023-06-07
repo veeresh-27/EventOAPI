@@ -14,12 +14,12 @@ namespace EventOAPI.Models
         public int Duration { get; set; }
         public string? Rules { get; set; }
         public DateTime CreatedAt { get; set; }
-        public double Price { get; set; } 
-         
+        public double Price { get; set; }
+
         public Space Space { get; set; } = null!;
         public User User { get; set; } = null!;
+        public int Likes { get; set; } = 0;
 
-        public virtual ICollection<Like> Likes { get; set; } = new List<Like>();
         public virtual ICollection<Chat> Chats { get; set; } = new List<Chat>();
         public virtual ICollection<EventAttendee> Attendees { get; set; } = new List<EventAttendee>();
     }

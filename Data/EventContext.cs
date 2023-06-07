@@ -28,8 +28,6 @@ namespace EventOAPI.Data
         public DbSet<InviteToken> InviteTokens { get; set; }
 
         public DbSet<Chat> Chats { get; set; }
-        public DbSet<Like> Likes { get; set; }
-        public DbSet<Post> Posts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
