@@ -16,6 +16,11 @@ namespace EventOAPI.Controllers
         {
             _adminServices = adminServices;
         }
+        [HttpGet("all")]
+        public ActionResult<IEnumerable<DetailsDto>> GetAllOwners()
+        {
+            return _adminServices.GetAllAdmins();
+        }
         [HttpGet("{ownerid}/spaces")]
         public ActionResult<IEnumerable<Space>> GetSpacesOfOwner(int ownerid)
         {

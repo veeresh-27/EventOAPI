@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EventOAPI.Models
 {
@@ -8,7 +9,7 @@ namespace EventOAPI.Models
         public int Id { get; set; }
         public int EventId { get; set; }
         public int CommunityId { get; set; }
-        public string? Token { get; set; }
+        public Guid Token { get; set; }
         public DateTime CreatedAt { get; set; }
     }
 }

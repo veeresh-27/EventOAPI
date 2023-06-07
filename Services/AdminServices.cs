@@ -15,9 +15,9 @@ namespace EventOAPI.Services
             this.context = context;
 
         }
-        public List<Admin> GetAllAdmins()
+        public List<DetailsDto> GetAllAdmins()
         {
-            return context.Admins.ToList();
+            return context.Admins.Select(a => new DetailsDto { Id = a.Id, Username = a.Username, Email = a.Email }).ToList();
         }
 
         public bool RemoveSpaceByOwnerId(int ownerId, int spaceId)
@@ -77,7 +77,7 @@ namespace EventOAPI.Services
                 Capacity = dto.Capacity,
                 Location = dto.Location,
                 Amenities = dto.Amenities,
-                Price=dto.Price,
+                Price = dto.Price,
                 CreatedAt = DateTime.Now
 
             });
@@ -87,6 +87,6 @@ namespace EventOAPI.Services
 
         }
 
-        
+
     }
 }

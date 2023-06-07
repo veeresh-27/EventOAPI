@@ -1,5 +1,6 @@
 ﻿using EventOAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 
 namespace EventOAPI.Data
 {
@@ -98,6 +99,9 @@ namespace EventOAPI.Data
                 .WithMany(u => u.Chats)
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<InviteToken>()
+                .Property(b => b.Token)
+                .HasDefaultValueSql("NEWID()");
         }
     }
 }

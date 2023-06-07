@@ -8,11 +8,11 @@ namespace EventOAPI.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class EventsController : ControllerBase
+    public class EventController : ControllerBase
     {
         private readonly EventService _eventService;
 
-        public EventsController(EventService eventService)
+        public EventController(EventService eventService)
         {
             _eventService = eventService;
         }
@@ -47,6 +47,43 @@ namespace EventOAPI.Controllers
             return _eventService.GetEventsByDate(DateTime.Parse(date));
 
         }
+        [HttpGet("{eventId}/attendees")]
+        public ActionResult<IEnumerable<EventAttendee>> GetAttendiesOfAnEvent(int eventId)
+        {
+            return _eventService.GetAttendeesOfAnEvent(eventId);
+        }
+        [HttpPost("{eventId}/attendees/{userId}")]
+        public ActionResult<ApiResponse> AddAttendeeToAnEvent(int eventId, int userId)
+        {
+            return new ApiResponse { Message = _eventService.AddAttendeeToAnEvent(eventId, userId) };
+        }
+        [HttpDelete("{eventId}/attendees/{userId}")]
+        public ActionResult<ApiResponse> DeleteAttendeeFromAnEvent(int eventId, int userId)
+        {
+            return new ApiResponse { Message = _eventService.DeleteAttendeeFromAnEvent(eventId, userId) };
+        }
+        [HttpPost("{eventId}/like")]
+        public ActionResult<ApiResponse> AddLikeToAnEvent(int eventId)
+        {
+            return new ApiResponse { Message = _eventService.AddLike(eventId) };
+        }
+        [HttpPost("{eventId}/dislike")]
+        public ActionResult<ApiResponse> RemoveLikeFromAnEvent(int eventId)
+        {
+            return new ApiResponse { Message = _eventService.DeleteLike(eventId) };
+        }
+        [HttpGet("{eventId}/chat")]
+        public ActionResult<IEnumerable<Chat>> GetChat(int eventId)
+        {
+            return _eventService.GetChatsOfAnEvent(eventId);
+        }
+        [HttpPost("{eventId}/chat")]
+        public ActionResult<ApiResponse> GetChat(int eventId, ChatDto dto)
+        {
+            return new ApiResponse { Message = _eventService.AddChat(eventId, dto) };
+        }
+
+
 
     }
 }

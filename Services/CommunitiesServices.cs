@@ -33,8 +33,12 @@ namespace EventOAPI.Services
                 CreatedAt = DateTime.Now
             });
             context.SaveChanges();
-            return context.Communities.OrderBy(o => o.Id).Last();
+            var newCommunity = context.Communities.OrderBy(o => o.Id).Last();
 
+            context.InviteTokens.Add(new InviteToken { CreatedAt = DateTime.Now, CommunityId = newCommunity.Id });
+
+            context.SaveChanges();
+            return newCommunity;
         }
 
         public bool RemoveCommunity(int id)
@@ -45,6 +49,8 @@ namespace EventOAPI.Services
                 if (community != null)
                 {
                     context.Communities.Remove(community);
+                    context.InviteTokens.Remove(context.InviteTokens.FirstOrDefault(i => i.CommunityId.Equals(id)));
+
                     context.SaveChanges();
                     return true;
                 }
@@ -118,6 +124,7 @@ namespace EventOAPI.Services
             {
                 var e = community.CommunityEvents.FirstOrDefault(c => c.Id.Equals(eventId));
                 community.CommunityEvents.Remove(e!);
+                context.InviteTokens.Remove(context.InviteTokens.FirstOrDefault(i => i.CommunityId.Equals(communityId) && i.EventId.Equals(eventId))!);
                 context.SaveChanges();
                 return true;
             }
@@ -130,6 +137,7 @@ namespace EventOAPI.Services
             if (e != null)
             {
                 context.Communities.Include(c => c.CommunityEvents).First(c => c.Id.Equals(communityId)).CommunityEvents.Add(e);
+                context.InviteTokens.Add(new InviteToken { CommunityId = communityId, EventId = eventId, CreatedAt = DateTime.Now });
                 context.SaveChanges();
                 return true;
 
