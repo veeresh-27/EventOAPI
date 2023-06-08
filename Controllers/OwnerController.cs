@@ -9,9 +9,9 @@ namespace EventOAPI.Controllers
     [ApiController]
     public class OwnerController : ControllerBase
     {
-        private readonly AdminServices _adminServices;
+        private readonly IAdminServices _adminServices;
 
-        public OwnerController(AdminServices adminServices)
+        public OwnerController(IAdminServices adminServices)
         {
             _adminServices = adminServices;
         }

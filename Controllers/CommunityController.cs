@@ -9,9 +9,9 @@ namespace EventOAPI.Controllers
     [ApiController]
     public class CommunityController : ControllerBase
     {
-        private readonly CommunitiesServices _service;
+        private readonly ICommunitiesServices _service;
 
-        public CommunityController(CommunitiesServices service)
+        public CommunityController(ICommunitiesServices service)
         {
             _service = service;
         }

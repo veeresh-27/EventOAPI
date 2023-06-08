@@ -8,9 +8,9 @@ namespace EventOAPI.Controllers
     [ApiController]
     public class SpaceController : ControllerBase
     {
-        private readonly SpaceService _spaceService;
+        private readonly ISpaceService _spaceService;
 
-        public SpaceController(SpaceService spaceService)
+        public SpaceController(ISpaceService spaceService)
         {
             _spaceService = spaceService;
         }

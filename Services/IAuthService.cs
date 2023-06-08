@@ -4,6 +4,9 @@ namespace EventOAPI.Services
 {
     public interface IAuthService
     {
+        ApiResponse CheckEmail(string email);
+        bool DeleteOwner(int adminId);
+        bool DeleteUser(int userId);
         DetailsDto IsOwnerValid(LoginDto loginDto);
         DetailsDto IsUserValid(LoginDto loginDto);
         ApiResponse RegisterOwner(RegistrationDto dto);
