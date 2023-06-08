@@ -1,12 +1,11 @@
 ﻿using EventOAPI.Data;
 using EventOAPI.Dto;
 using EventOAPI.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventOAPI.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly EventContext _context;
 
@@ -15,7 +14,7 @@ namespace EventOAPI.Services
             _context = context;
         }
 
-        internal List<DetailsDto> GetAllUsers()
+        public List<DetailsDto> GetAllUsers()
         {
             return _context.Users.Select(u => new DetailsDto
             {
@@ -24,33 +23,33 @@ namespace EventOAPI.Services
                 Email = u.Email
             }).ToList();
         }
-        internal User GetUserById(int userId)
+        public User GetUserById(int userId)
         {
             return _context.Users.Include(u => u.Events).Include(u => u.AttendedEvents).Include(u => u.CreatedCommunities).Include(u => u.Communities).Include(u => u.Chats).FirstOrDefault(u => u.Id.Equals(userId))!;
         }
 
-        internal List<EventAttendee> GetEventsAttendedByUser(int userId)
+        public List<EventAttendee> GetEventsAttendedByUser(int userId)
         {
             return GetUserById(userId).AttendedEvents.ToList();
         }
 
-        internal List<Event> GetEventsCreatedByUser(int userId)
+        public List<Event> GetEventsCreatedByUser(int userId)
         {
             return GetUserById(userId).Events.ToList();
         }
 
 
-        internal List<Chat> GetUserChats(int userId)
+        public List<Chat> GetUserChats(int userId)
         {
             return GetUserById(userId).Chats.ToList();
         }
 
-        internal List<Community> GetUserCreatedCommunities(int userId)
+        public List<Community> GetUserCreatedCommunities(int userId)
         {
             return GetUserById(userId).CreatedCommunities.ToList();
         }
 
-        internal List<CommunityMember> GetUserJoinedCommunities(int userId)
+        public List<CommunityMember> GetUserJoinedCommunities(int userId)
         {
             return GetUserById(userId).Communities.ToList();
         }

@@ -1,11 +1,10 @@
 ﻿using EventOAPI.Data;
 using EventOAPI.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata.Ecma335;
 
 namespace EventOAPI.Services
 {
-    public class SpaceService
+    public class SpaceService : ISpaceService
     {
         private readonly EventContext _context;
 
@@ -26,5 +25,6 @@ namespace EventOAPI.Services
             var space = _context.Spaces.Include(s => s.Events).FirstOrDefault(s => s.Id.Equals(spaceId));
             return space!.Events.ToList();
         }
+
     }
 }

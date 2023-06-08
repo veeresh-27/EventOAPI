@@ -2,7 +2,6 @@
 using EventOAPI.Models;
 using EventOAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Diagnostics;
 
 namespace EventOAPI.Controllers
 {

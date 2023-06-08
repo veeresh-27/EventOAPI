@@ -1,12 +1,11 @@
 ﻿using EventOAPI.Data;
 using EventOAPI.Dto;
 using EventOAPI.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventOAPI.Services
 {
-    public class EventService
+    public class EventService : IEventService
     {
         private readonly EventContext context;
         public EventService(EventContext context)
@@ -86,11 +85,11 @@ namespace EventOAPI.Services
             return context.Events.Where(e => e.Date.Day.Equals(date.Day) && e.Date.Month.Equals(date.Month) && e.Date.Year.Equals(date.Year)).ToList();
         }
 
-        internal List<DetailsDto> GetAttendeesOfAnEvent(int eventId)
+        public List<DetailsDto> GetAttendeesOfAnEvent(int eventId)
         {
             return context.Events.Include(e => e.Attendees).ThenInclude(a => a.User).FirstOrDefault(e => e.Id.Equals(eventId))!.Attendees.Select(a => new DetailsDto { Email = a.User.Email, Id = a.User.Id, Username = a.User.Username }).ToList();
         }
-        internal bool AddAttendeeToAnEvent(int eventId, int userId)
+        public bool AddAttendeeToAnEvent(int eventId, int userId)
         {
             var selectedEvent = context.Events.Include(e => e.Attendees).FirstOrDefault(e => e.Id.Equals(eventId));
             if (selectedEvent != null)
@@ -103,7 +102,7 @@ namespace EventOAPI.Services
             return false;
 
         }
-        internal bool DeleteAttendeeFromAnEvent(int eventId, int userId)
+        public bool DeleteAttendeeFromAnEvent(int eventId, int userId)
         {
             var selectedEvent = context.Events.Include(e => e.Attendees).FirstOrDefault(e => e.Id.Equals(eventId));
             if (selectedEvent != null)
@@ -117,7 +116,7 @@ namespace EventOAPI.Services
             }
             return false;
         }
-        internal bool AddLike(int eventId)
+        public bool AddLike(int eventId)
         {
             var selectedEvent = context.Events.FirstOrDefault(e => e.Id.Equals(eventId));
             if (selectedEvent != null)
@@ -129,7 +128,7 @@ namespace EventOAPI.Services
             return false;
 
         }
-        internal bool DeleteLike(int eventId)
+        public bool DeleteLike(int eventId)
         {
             var selectedEvent = context.Events.FirstOrDefault(e => e.Id.Equals(eventId));
             if (selectedEvent != null)
@@ -141,13 +140,13 @@ namespace EventOAPI.Services
             return false;
 
         }
-        internal List<Chat> GetChatsOfAnEvent(int eventId)
+        public List<Chat> GetChatsOfAnEvent(int eventId)
         {
 
             var selectedEvent = context.Events.Include(e => e.Chats).FirstOrDefault(e => e.Id.Equals(eventId))!;
             return selectedEvent.Chats.ToList();
         }
-        internal bool AddChat(int eventId, ChatDto dto)
+        public bool AddChat(int eventId, ChatDto dto)
         {
             var selectedEvent = context.Events.Include(e => e.Chats).FirstOrDefault(e => e.Id.Equals(eventId))!;
             if (selectedEvent != null)

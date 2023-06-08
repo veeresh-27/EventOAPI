@@ -1,11 +1,10 @@
 ﻿using EventOAPI.Data;
 using EventOAPI.Dto;
 using EventOAPI.Models;
-using System.Reflection.Metadata.Ecma335;
 
 namespace EventOAPI.Services
 {
-    public class AuthService
+    public class AuthService : IAuthService
     {
 
         private readonly EventContext _eventContext;
@@ -166,7 +165,6 @@ namespace EventOAPI.Services
             }
 
         }
-
 
     }
 }

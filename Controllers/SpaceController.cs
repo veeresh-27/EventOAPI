@@ -1,7 +1,5 @@
-﻿using EventOAPI.Dto;
-using EventOAPI.Models;
+﻿using EventOAPI.Models;
 using EventOAPI.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventOAPI.Controllers
@@ -12,12 +10,13 @@ namespace EventOAPI.Controllers
     {
         private readonly SpaceService _spaceService;
 
-        public SpaceController(SpaceService spaceService) {
+        public SpaceController(SpaceService spaceService)
+        {
             _spaceService = spaceService;
         }
 
         [HttpGet("all")]
-        public ActionResult<IEnumerable<Space>> GetAllSpace() 
+        public ActionResult<IEnumerable<Space>> GetAllSpace()
         {
             return _spaceService.GetAllSpaces();
         }
@@ -33,8 +32,8 @@ namespace EventOAPI.Controllers
             return _spaceService.GetEventsOfASpace(id);
         }
 
-      
-      
+
+
 
     }
 }

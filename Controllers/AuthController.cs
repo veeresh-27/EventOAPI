@@ -1,7 +1,5 @@
 ﻿using EventOAPI.Dto;
-using EventOAPI.Models;
 using EventOAPI.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventOAPI.Controllers
@@ -45,7 +43,8 @@ namespace EventOAPI.Controllers
             return _authService.RegisterOwner(dto);
         }
         [HttpDelete("owner/{id}")]
-        public ActionResult<ApiResponse> DeleteOwner(int id) {
+        public ActionResult<ApiResponse> DeleteOwner(int id)
+        {
             return new ApiResponse { Message = _authService.DeleteOwner(id) };
         }
         [HttpPut("owner/{id}")]
@@ -54,7 +53,8 @@ namespace EventOAPI.Controllers
             return new ApiResponse { Message = _authService.UpdateOwner(ownerId, dto) };
         }
         [HttpDelete("user/{id}")]
-        public ActionResult<ApiResponse> DeleteUser(int id) {
+        public ActionResult<ApiResponse> DeleteUser(int id)
+        {
             return new ApiResponse { Message = _authService.DeleteUser(id) };
         }
         [HttpPut("user/{id}")]

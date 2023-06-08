@@ -1,12 +1,11 @@
 ﻿using EventOAPI.Data;
 using EventOAPI.Dto;
 using EventOAPI.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventOAPI.Services
 {
-    public class CommunitiesServices
+    public class CommunitiesServices : ICommunitiesServices
     {
 
         private readonly EventContext context;
@@ -49,7 +48,7 @@ namespace EventOAPI.Services
                 if (community != null)
                 {
                     context.Communities.Remove(community);
-                    context.InviteTokens.Remove(context.InviteTokens.FirstOrDefault(i => i.CommunityId.Equals(id)));
+                    context.InviteTokens.Remove(context.InviteTokens.FirstOrDefault(i => i.CommunityId.Equals(id))!);
 
                     context.SaveChanges();
                     return true;
@@ -80,7 +79,7 @@ namespace EventOAPI.Services
             return context.Communities.Include(c => c.Members).FirstOrDefault(c => c.Id == id)!;
         }
 
-        internal bool AddMembeToCommunity(int communityId, int memberId)
+        public bool AddMembeToCommunity(int communityId, int memberId)
         {
             var community = context.Communities.Include(c => c.Members).FirstOrDefault(c => c.Id.Equals(communityId));
             if (community != null)
@@ -98,7 +97,7 @@ namespace EventOAPI.Services
             return false;
         }
 
-        internal bool RemoveMemberFromCommunity(int communityId, int memberId)
+        public bool RemoveMemberFromCommunity(int communityId, int memberId)
         {
             var community = context.Communities.Include(c => c.Members).FirstOrDefault(c => c.Id.Equals(communityId));
             if (community != null)
@@ -111,12 +110,12 @@ namespace EventOAPI.Services
             return false;
         }
 
-        internal List<Event> GetCommunityEvents(int communityId)
+        public List<Event> GetCommunityEvents(int communityId)
         {
             return context.Communities.Include(c => c.CommunityEvents).FirstOrDefault(c => c.Id.Equals(communityId))!.CommunityEvents.ToList();
         }
 
-        internal bool DeleteEventFromCommunity(int communityId, int eventId)
+        public bool DeleteEventFromCommunity(int communityId, int eventId)
         {
 
             var community = context.Communities.Include(c => c.CommunityEvents).FirstOrDefault(c => c.Id.Equals(communityId))!;
@@ -131,7 +130,7 @@ namespace EventOAPI.Services
             return false;
         }
 
-        internal bool AddEventToCommunity(int communityId, int eventId)
+        public bool AddEventToCommunity(int communityId, int eventId)
         {
             var e = context.Events.FirstOrDefault(e => e.Id.Equals(eventId));
             if (e != null)
@@ -145,7 +144,7 @@ namespace EventOAPI.Services
             return false;
         }
 
-        internal List<DetailsDto> GetCommunityMembers(int communityId)
+        public List<DetailsDto> GetCommunityMembers(int communityId)
         {
             return context
                 .Communities

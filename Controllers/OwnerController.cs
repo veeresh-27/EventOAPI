@@ -1,7 +1,6 @@
 ﻿using EventOAPI.Dto;
 using EventOAPI.Models;
 using EventOAPI.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventOAPI.Controllers

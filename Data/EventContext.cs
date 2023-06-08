@@ -1,6 +1,5 @@
 ﻿using EventOAPI.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata;
 
 namespace EventOAPI.Data
 {

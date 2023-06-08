@@ -1,7 +1,6 @@
 ﻿using EventOAPI.Dto;
 using EventOAPI.Models;
 using EventOAPI.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventOAPI.Controllers
@@ -67,10 +66,10 @@ namespace EventOAPI.Controllers
         {
             return new ApiResponse { Message = _service.AddEventToCommunity(communityId, eventId) };
         }
-         [HttpDelete("{communityId}/events/{eventId}")]
-        public ActionResult<ApiResponse> DeleteEventFromCommunity(int communityId,int eventId)
+        [HttpDelete("{communityId}/events/{eventId}")]
+        public ActionResult<ApiResponse> DeleteEventFromCommunity(int communityId, int eventId)
         {
-            return new ApiResponse { Message = _service.DeleteEventFromCommunity(communityId,eventId) };
+            return new ApiResponse { Message = _service.DeleteEventFromCommunity(communityId, eventId) };
         }
     }
 }

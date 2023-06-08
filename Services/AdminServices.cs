@@ -1,12 +1,11 @@
 ﻿using EventOAPI.Data;
 using EventOAPI.Dto;
 using EventOAPI.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventOAPI.Services
 {
-    public class AdminServices
+    public class AdminServices : IAdminServices
     {
 
         private readonly EventContext context;

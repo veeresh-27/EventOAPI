@@ -7,17 +7,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddTransient<AuthService, AuthService>();
-builder.Services.AddTransient<AdminServices, AdminServices>();
-builder.Services.AddTransient<SpaceService, SpaceService>();
-builder.Services.AddTransient<EventService, EventService>();
-builder.Services.AddTransient<CommunitiesServices, CommunitiesServices>();
-builder.Services.AddTransient<UserService, UserService>();
+builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<IAdminServices, AdminServices>();
+builder.Services.AddTransient<ISpaceService, SpaceService>();
+builder.Services.AddTransient<IEventService, EventService>();
+builder.Services.AddTransient<ICommunitiesServices, CommunitiesServices>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.AddDbContext<EventContext>();
 builder.Services.AddTransient(typeof(EventContext));
+
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+
 builder.Services.AddCors((options) =>
 {
     options.AddPolicy("cors", options =>
@@ -28,6 +31,7 @@ builder.Services.AddCors((options) =>
 
 
 var app = builder.Build();
+
 app.UseCors("cors");
 
 if (app.Environment.IsDevelopment())
@@ -48,16 +52,14 @@ if (app.Environment.IsDevelopment())
                     Message = exceptionHandlerPathFeature.Error.Message,
                     Code = StatusCodes.Status500InternalServerError,
                     Exception = exceptionHandlerPathFeature.Error.GetType().Name,
-                    Route=exceptionHandlerPathFeature.RouteValues,
-                    Trace=exceptionHandlerPathFeature.Error.StackTrace
+                    Route = exceptionHandlerPathFeature.RouteValues,
+                    Trace = exceptionHandlerPathFeature.Error.StackTrace
                 });
             }
         });
     });
 }
 app.MapControllers();
-
-
 
 app.Run();
 
