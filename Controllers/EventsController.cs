@@ -48,7 +48,7 @@ namespace EventOAPI.Controllers
 
         }
         [HttpGet("{eventId}/attendees")]
-        public ActionResult<IEnumerable<EventAttendee>> GetAttendiesOfAnEvent(int eventId)
+        public ActionResult<IEnumerable<DetailsDto>> GetAttendiesOfAnEvent(int eventId)
         {
             return _eventService.GetAttendeesOfAnEvent(eventId);
         }

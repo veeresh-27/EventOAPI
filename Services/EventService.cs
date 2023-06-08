@@ -86,9 +86,9 @@ namespace EventOAPI.Services
             return context.Events.Where(e => e.Date.Day.Equals(date.Day) && e.Date.Month.Equals(date.Month) && e.Date.Year.Equals(date.Year)).ToList();
         }
 
-        internal List<EventAttendee> GetAttendeesOfAnEvent(int eventId)
+        internal List<DetailsDto> GetAttendeesOfAnEvent(int eventId)
         {
-            return context.Events.Include(e => e.Attendees).FirstOrDefault(e => e.Id.Equals(eventId))!.Attendees.ToList();
+            return context.Events.Include(e => e.Attendees).ThenInclude(a => a.User).FirstOrDefault(e => e.Id.Equals(eventId))!.Attendees.Select(a => new DetailsDto { Email = a.User.Email, Id = a.User.Id, Username = a.User.Username }).ToList();
         }
         internal bool AddAttendeeToAnEvent(int eventId, int userId)
         {

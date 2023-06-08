@@ -1,6 +1,7 @@
 
 using EventOAPI.Data;
 using EventOAPI.Services;
+using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,26 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseExceptionHandler(exceptionHandlerApp =>
+    {
+        exceptionHandlerApp.Run(async c =>
+        {
+            c.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            c.Response.ContentType = "application/json";
+            var exceptionHandlerPathFeature = c.Features.Get<IExceptionHandlerPathFeature>();
+            if (exceptionHandlerPathFeature?.Error != null)
+            {
+                await c.Response.WriteAsJsonAsync(new
+                {
+                    Message = exceptionHandlerPathFeature.Error.Message,
+                    Code = StatusCodes.Status500InternalServerError,
+                    Exception = exceptionHandlerPathFeature.Error.GetType().Name,
+                    Route=exceptionHandlerPathFeature.RouteValues,
+                    Trace=exceptionHandlerPathFeature.Error.StackTrace
+                });
+            }
+        });
+    });
 }
 app.MapControllers();
 
