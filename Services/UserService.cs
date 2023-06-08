@@ -25,33 +25,33 @@ namespace EventOAPI.Services
         }
         public User GetUserById(int userId)
         {
-            return _context.Users.Include(u => u.Events).Include(u => u.AttendedEvents).Include(u => u.CreatedCommunities).Include(u => u.Communities).Include(u => u.Chats).FirstOrDefault(u => u.Id.Equals(userId))!;
+            return _context.Users.FirstOrDefault(u => u.Id.Equals(userId))!;
         }
 
         public List<EventAttendee> GetEventsAttendedByUser(int userId)
         {
-            return GetUserById(userId).AttendedEvents.ToList();
+            return _context.Users.Include(u => u.AttendedEvents).FirstOrDefault(u => u.Id.Equals(userId))!.AttendedEvents.ToList();
         }
 
         public List<Event> GetEventsCreatedByUser(int userId)
         {
-            return GetUserById(userId).Events.ToList();
+            return _context.Users.Include(u => u.Events).FirstOrDefault(u => u.Id.Equals(userId))!.Events.ToList();
         }
 
 
         public List<Chat> GetUserChats(int userId)
         {
-            return GetUserById(userId).Chats.ToList();
+            return _context.Users.Include(u => u.Chats).FirstOrDefault(u => u.Id.Equals(userId))!.Chats.ToList();
         }
 
         public List<Community> GetUserCreatedCommunities(int userId)
         {
-            return GetUserById(userId).CreatedCommunities.ToList();
+            return _context.Users.Include(u => u.CreatedCommunities).FirstOrDefault(u => u.Id.Equals(userId))!.CreatedCommunities.ToList();
         }
 
         public List<CommunityMember> GetUserJoinedCommunities(int userId)
         {
-            return GetUserById(userId).Communities.ToList();
+            return _context.Users.Include(u => u.Communities).FirstOrDefault(u => u.Id.Equals(userId))!.Communities.ToList();
         }
     }
 }
