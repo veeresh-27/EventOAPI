@@ -42,6 +42,11 @@ namespace EventOAPI.Controllers
         {
             return new ApiResponse { Message = _service.RemoveCommunity(communityId) };
         }
+        [HttpPost("{communityId}/members")]
+        public ActionResult<IEnumerable<DetailsDto>> GeCommunityMembers(int communityId)
+        {
+            return _service.GetCommunityMembers(communityId);
+        }
         [HttpPost("{communityId}/add/{memberId}")]
         public ActionResult<ApiResponse> AddMemeberToCommunity(int communityId, int memberId)
         {

@@ -144,5 +144,16 @@ namespace EventOAPI.Services
             }
             return false;
         }
+
+        internal List<DetailsDto> GetCommunityMembers(int communityId)
+        {
+            return context
+                .Communities
+                .Include(c => c.Members)
+                .ThenInclude(m => m.User).
+                FirstOrDefault(c => c.Id.Equals(communityId))!
+                .Members.Select(m => new DetailsDto { Username = m.User.Username, Id = m.User.Id, Email = m.User.Email }).ToList();
+
+        }
     }
 }
